@@ -1,34 +1,17 @@
+<?php include "../phpecommerces/include/components/session.php" ?>
+<?php include("../../BackEnd/config/db.php") ?>
 <!DOCTYPE html>
 <html lang="zxx">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Male_Fashion Template">
-    <meta name="keywords" content="Male_Fashion, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Male-Fashion | Template</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <?php include("./include/components/head.php") ?>
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 </head>
 
 <body>
-   
 
     <!-- Header Section Begin -->
-    <?php include"./include/components/header.php"?>
+    <?php include "./include/components/header.php" ?>
     <!-- Header Section End -->
 
     <!-- Map Begin -->
@@ -41,26 +24,27 @@
     <section class="contact spad">
         <div class="container">
             <div class="row">
+                <!-- Display dynamic content here -->
                 <div class="col-lg-6 col-md-6">
                     <div class="contact__text">
-                        <div class="section-title">
-                            <span>Information</span>
-                            <h2>Contact Us</h2>
-                            <p>As you might expect of a company that began as a high-end interiors contractor, we pay
-                                strict attention.</p>
-                        </div>
-                        <ul>
-                            <li>
-                                <h4>America</h4>
-                                <p>195 E Parker Square Dr, Parker, CO 801 <br />+43 982-314-0958</p>
-                            </li>
-                            <li>
-                                <h4>France</h4>
-                                <p>109 Avenue Léon, 63 Clermont-Ferrand <br />+12 345-423-9893</p>
-                            </li>
-                        </ul>
+                        <?php
+                        try {
+                            $stmt = $pdo->query("SELECT content FROM contact_contents ORDER BY id DESC LIMIT 1");
+                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                            if ($row) {
+                                echo $row['content']; // Outputs HTML from CKEditor
+                            } else {
+                                echo "<p>No contact info available yet.</p>";
+                            }
+                        } catch (PDOException $e) {
+                            echo "<p>Database error: " . $e->getMessage() . "</p>";
+                        }
+                        ?>
                     </div>
                 </div>
+
+                <!-- Contact form on the right -->
                 <div class="col-lg-6 col-md-6">
                     <div class="contact__form">
                         <form action="#">
@@ -85,10 +69,9 @@
     <!-- Contact Section End -->
 
     <!-- Footer Section Begin -->
-   <?php include"./include/components/footer.php"?>
+    <?php include "./include/components/footer.php" ?>
     <!-- Footer Section End -->
 
-    
 </body>
 
 </html>

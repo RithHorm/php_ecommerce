@@ -12,7 +12,7 @@
           </div>
           <div class="col-lg-4">
             <div class="categories__hot__deal">
-              <img src="img/product-sale.png" alt="" />
+              <img src="https://image.uniqlo.com/UQ/ST3/WesternCommon/imagesgoods/470077/sub/goods_470077_sub14_3x4.jpg?width=400" alt="" />
               <div class="hot__deal__sticker">
                 <span>Sale Of</span>
                 <h5>$29.99</h5>

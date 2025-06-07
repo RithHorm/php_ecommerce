@@ -13,7 +13,7 @@
             <div class="blog__item">
               <div
                 class="blog__item__pic set-bg"
-                data-setbg="img/blog/blog-1.jpg"
+                data-setbg="https://static.euronews.com/articles/stories/08/76/47/86/1440x810_cmsv2_4f3d70c9-7be4-5e20-b0aa-530b9a3c5b18-8764786.jpg"
               ></div>
               <div class="blog__item__text">
                 <span
@@ -29,7 +29,7 @@
             <div class="blog__item">
               <div
                 class="blog__item__pic set-bg"
-                data-setbg="img/blog/blog-2.jpg"
+                data-setbg="https://www.uniqlo.com/jp/ja/contents/feature/whatmakeslifebetter/common/images/about-lifewear-modal-item-img-4-1.jpg"
               ></div>
               <div class="blog__item__text">
                 <span
@@ -45,7 +45,7 @@
             <div class="blog__item">
               <div
                 class="blog__item__pic set-bg"
-                data-setbg="img/blog/blog-3.jpg"
+                data-setbg="https://d1ef7ke0x2i9g8.cloudfront.net/hong-kong/_large700/1529198/Sneak-Peak_-Elevate-Your-Style-with-Uniqlo-U-Fall_Winter-2023-Collection-Header.webp"
               ></div>
               <div class="blog__item__text">
                 <span

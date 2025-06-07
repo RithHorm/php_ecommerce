@@ -1,17 +1,19 @@
-<?php 
+<?php
+session_start();
 
-    $page = "index.php";
-    $p = "index";
-    if(isset($_GET['p'])){
-      $p = $_GET['p'];
-      switch($p){
-        case "shop":
-          $page = "shop.php";
-          break;
-      }
-    }
+// Include function.php to handle JWT validation
+require_once __DIR__ . '/include/components/function.php'; // Include the function file
 
+// Call the function to verify JWT and get user data
+$user = verifyJWTFromSession();
+
+// If the user is not authenticated or not an admin, redirect to sign-in page
+if ($user === null || $user->role !== 'user') {
+    header("Location: sign-in.php");
+    exit();
+}
 ?>
+<?php include "../phpecommerces/include/components/session.php"?>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -70,7 +72,7 @@
 
     <!-- Categories Section Begin -->
     <?php include "./include/components/category.php"?>
-    <!-- Categories Section End -->
+    <!-- Categories Section End --> 
 
     <!-- Instagram Section Begin -->
      <?php include"./include/components/instagramSec.php"?>

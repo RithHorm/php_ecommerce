@@ -1,3 +1,4 @@
+<?php include "../phpecommerces/include/components/session.php"?>
 <!DOCTYPE html>
 <html lang="zxx">
 

@@ -1,15 +1,29 @@
+<?php
+session_start();
+// unset($_SESSION['cart']);
+include('../../BackEnd/config/db.php');
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
+// Calculate total
+$total = 0;
+foreach ($_SESSION['cart'] as $item) {
+    $total += $item['prod_price'] * $item['prod_qty'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
 <head>
-    <?php include"./include/components/head.php"?>
+    <?php include "./include/components/head.php" ?>
+    <script src="https://www.paypal.com/sdk/js?client-id=ATbJVZILIHG19EekXhkCc7CHGXowTNoiYDXRBtPpXMSA-ezvM67_Rk0IMlhUiw-0q6EhrGK6mlir-Yyo&currency=USD"></script>
+
 </head>
 
 <body>
-    
-
-    <!-- Header Section Begin -->
-    <?php include"./include/components/header.php"?>
+    <?php include "./include/components/header.php" ?>
     
     <!-- Header Section End -->
 
@@ -39,31 +53,30 @@
                 <form action="#">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
-                            <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
-                            here</a> to enter your code</h6>
+                            <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click here</a> to enter your code</h6>
                             <h6 class="checkout__title">Billing Details</h6>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p>Fist Name<span>*</span></p>
-                                        <input type="text">
+                                        <p>First Name<span>*</span></p>
+                                        <input type="text" require>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Last Name<span>*</span></p>
-                                        <input type="text">
+                                        <input type="text" require>
                                     </div>
                                 </div>
                             </div>
                             <div class="checkout__input">
                                 <p>Country<span>*</span></p>
-                                <input type="text">
+                                <input type="text" require>
                             </div>
                             <div class="checkout__input">
                                 <p>Address<span>*</span></p>
                                 <input type="text" placeholder="Street Address" class="checkout__input__add">
-                                <input type="text" placeholder="Apartment, suite, unite ect (optinal)">
+                                <input type="text" placeholder="Apartment, suite, unit etc (optional)">
                             </div>
                             <div class="checkout__input">
                                 <p>Town/City<span>*</span></p>
@@ -81,7 +94,7 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Phone<span>*</span></p>
-                                        <input type="text">
+                                        <input type="text" require>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -97,8 +110,7 @@
                                     <input type="checkbox" id="acc">
                                     <span class="checkmark"></span>
                                 </label>
-                                <p>Create an account by entering the information below. If you are a returning customer
-                                please login at the top of the page</p>
+                                <p>Create an account by entering the information below. If you are a returning customer please login at the top of the page</p>
                             </div>
                             <div class="checkout__input">
                                 <p>Account Password<span>*</span></p>
@@ -106,15 +118,14 @@
                             </div>
                             <div class="checkout__input__checkbox">
                                 <label for="diff-acc">
-                                    Note about your order, e.g, special noe for delivery
+                                    Note about your order, e.g., special note for delivery
                                     <input type="checkbox" id="diff-acc">
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
                             <div class="checkout__input">
                                 <p>Order notes<span>*</span></p>
-                                <input type="text"
-                                placeholder="Notes about your order, e.g. special notes for delivery.">
+                                <input type="text" placeholder="Notes about your order, e.g. special notes for delivery.">
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
@@ -122,14 +133,16 @@
                                 <h4 class="order__title">Your order</h4>
                                 <div class="checkout__order__products">Product <span>Total</span></div>
                                 <ul class="checkout__total__products">
-                                    <li>01. Vanilla salted caramel <span>$ 300.0</span></li>
-                                    <li>02. German chocolate <span>$ 170.0</span></li>
-                                    <li>03. Sweet autumn <span>$ 170.0</span></li>
-                                    <li>04. Cluten free mini dozen <span>$ 110.0</span></li>
+                                    <?php foreach ($_SESSION['cart'] as $key => $product): ?>
+                                    <li>
+                                        <?= $product['prod_name'] ?> 
+                                        <span>$<?= number_format($product['prod_price'] * $product['prod_qty'], 2) ?></span>
+                                    </li>
+                                    <?php endforeach; ?>
                                 </ul>
                                 <ul class="checkout__total__all">
-                                    <li>Subtotal <span>$750.99</span></li>
-                                    <li>Total <span>$750.99</span></li>
+                                    <li>Subtotal <span>$<?= number_format($total, 2) ?></span></li>
+                                    <li>Total <span>$<?= number_format($total, 2) ?></span></li>
                                 </ul>
                                 <div class="checkout__input__checkbox">
                                     <label for="acc-or">
@@ -138,8 +151,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
-                                ut labore et dolore magna aliqua.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                 <div class="checkout__input__checkbox">
                                     <label for="payment">
                                         Check Payment
@@ -147,14 +159,46 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <div class="checkout__input__checkbox">
-                                    <label for="paypal">
-                                        Paypal
-                                        <input type="checkbox" id="paypal">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <button type="submit" class="site-btn">PLACE ORDER</button>
+                                <button type="submit" class="site-btn mb-4">PLACE ORDER</button>
+                                <div id="paypal-button-container"></div>
+                                <script>
+                                    paypal.Buttons({
+                                        createOrder: function(data, actions) {
+                                            return actions.order.create({
+                                                purchase_units: [{
+                                                    amount: {
+                                                        value: '<?= number_format($total, 2, '.', '') ?>' // PHP total from session
+                                                    },
+                                                    description: "E-Commerce Order"
+                                                }]
+                                            });
+                                        },
+                                        onApprove: function(data, actions) {
+                                            return actions.order.capture().then(function(details) {
+                                                // Show a success message to your buyer
+                                                alert('Transaction completed by ' + details.payer.name.given_name);
+
+                                                // Send the order details to your server for processing
+                                                fetch('paypal-process.php', {
+                                                    method: 'post',
+                                                    headers: {
+                                                        'content-type': 'application/json'
+                                                    },
+                                                    body: JSON.stringify({
+                                                        orderID: data.orderID,
+                                                        payerID: data.payerID,
+                                                        paymentDetails: details
+                                                    })
+                                                }).then(function(res) {
+                                                    // Redirect or show confirmation
+                                                    window.location.href = 'thank-you.php';
+                                                });
+                                            });
+                                        }
+                                    }).render('#paypal-button-container');
+                                </script>
+
+
                             </div>
                         </div>
                     </div>
@@ -165,11 +209,9 @@
     <!-- Checkout Section End -->
 
     <!-- Footer Section Begin -->
-    <?php include"./include/components/footer.php"?>
+    <?php include "./include/components/footer.php" ?>
     
     <!-- Footer Section End -->
-
-  
 </body>
 
 </html>
